@@ -12,7 +12,7 @@
 
  namespace SqsExtendedClient
 {
-    public class SqsExtendedClient : SqsExtendedClientBase, ILambdaSqsEventClient
+    public class SqsExtendedClient : SqsExtendedClientBase
     {
         private readonly S3BackedPayloadStore? payloadStore;
         private readonly IReceiptHandleFactory receiptHandleFactory;
@@ -91,18 +91,6 @@
         public override Task<ReceiveMessageResponse> ReceiveMessageAsync(string queueUrl,
             CancellationToken cancellationToken = new CancellationToken()) =>
             this.ReceiveMessageAsync(new ReceiveMessageRequest(queueUrl), cancellationToken);
-
-        public async Task FetchS3PayloadAsync(SQSEvent sqsEvent,
-            CancellationToken cancellationToken = default)
-        {
-            if (!this.config.S3PayloadEnabled())
-            {
-                return;
-            }
-
-            var tasks = sqsEvent.Records.Select(record => this.FetchS3PayloadForEvent(record, cancellationToken));
-            await Task.WhenAll(tasks);
-        }
 
         public override async Task<DeleteMessageResponse> DeleteMessageAsync(DeleteMessageRequest request,
             CancellationToken cancellationToken = new CancellationToken())
