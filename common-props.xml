@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <WarningsAsErrors>CS8600;CS8601;CS8602;CS8603;CS8604;CS8625;CS8618;CS1992;CS0219</WarningsAsErrors>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+</Project>
